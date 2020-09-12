@@ -1,9 +1,9 @@
 require("dotenv").config();
 
 const moment = require("moment");
-const { Telegraf } = require("telegraf");
+const { Composer } = require("micro-bot");
 
-const bot = new Telegraf(process.env.BOT_TOKEN);
+const bot = new Composer();
 console.log("Bot Starting...");
 
 const nameDB = ["Kai Wu, Toh"];
@@ -125,4 +125,4 @@ bot.command("/add", (ctx) => {
   });
 });
 
-bot.launch();
+module.exports = bot;
