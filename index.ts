@@ -3,7 +3,14 @@ require("dotenv").config();
 const moment = require("moment");
 const { Telegraf } = require("Telegraf");
 
-const bot = new Telegraf(process.env.BOT_TOKEN);
+const BOT_TOKEN = process.env.BOT_TOKEN || "";
+const PORT = process.env.PORT || 3000;
+const URL = process.env.URL || "https://still-lowlands-46129.herokuapp.com";
+
+const bot = new Telegraf(BOT_TOKEN);
+bot.telegram.setWebhook(`${URL}/bot${BOT_TOKEN}`);
+bot.startWebhook(`/bot${BOT_TOKEN}`, null, PORT);
+
 console.log("Bot Starting...");
 
 let nameDB = ["Kai Wu, Toh"];
@@ -124,5 +131,3 @@ bot.command("/add", (ctx) => {
     }
   });
 });
-
-bot.launch();
