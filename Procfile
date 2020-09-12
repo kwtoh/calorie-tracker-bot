@@ -1,1 +1,1 @@
-web: micro-bot -p $PORT
+web: yarn start

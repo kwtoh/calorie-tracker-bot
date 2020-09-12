@@ -1,22 +1,22 @@
 require("dotenv").config();
 
 const moment = require("moment");
-const { Composer } = require("micro-bot");
+const { Telegraf } = require("Telegraf");
 
-const bot = new Composer();
+const bot = new Telegraf(process.env.BOT_TOKEN);
 console.log("Bot Starting...");
 
-const nameDB = ["Kai Wu, Toh"];
-const foodDB: IFoodCalories[] = [];
+let nameDB = ["Kai Wu, Toh"];
+let foodDB = [];
 
-interface IFoodCalories {
-  user: string;
-  foodName: string;
-  calories: number;
-  date: string;
-}
+// interface IFoodCalories {
+//   user: string;
+//   foodName: string;
+//   calories: number;
+//   date: string;
+// }
 
-const findIndexOfName = (name: string) => {
+const findIndexOfName = (name) => {
   return nameDB.indexOf(name);
 };
 
@@ -125,4 +125,4 @@ bot.command("/add", (ctx) => {
   });
 });
 
-module.exports = bot;
+bot.launch();

@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev:start": "nodemon index.ts",
-    "start": "micro-bot",
+    "start": "node index.ts",
     "lint": "eslint"
   },
   "dependencies": {
