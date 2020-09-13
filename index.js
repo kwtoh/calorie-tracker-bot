@@ -39,6 +39,35 @@ const getAllCaloriesForToday = (ctx) => {
   return calories;
 };
 
+const getName = (ctx) =>
+  ctx.message.from.first_name + ", " + ctx.message.from.last_name;
+
+bot.command("/current", (ctx) => {
+  if (doesUserExist(ctx)) {
+    const calories = getAllCaloriesForToday(ctx);
+    ctx.reply(`Current Calories for today are: ${calories} calories.`);
+  } else {
+    ctx.reply("You have not joined our system.\n\n/join to join us.");
+  }
+});
+
+bot.command("/join", (ctx) => {
+  ctx.replyWithMarkdown(
+    "Are you ready to join the tracking of your calories?\n\nReply `Yes` to join!"
+  );
+  bot.hears("Yes", (ctx) => {
+    const name = getName(ctx);
+    if (!doesUserExist(ctx)) {
+      ctx.reply("Added " + name + " to our users.");
+      nameDB.push(name);
+    } else {
+      ctx.reply(
+        "Failed to add " + name + " to our users. You are already in the list."
+      );
+    }
+  });
+});
+
 bot.help((ctx) => helpText(ctx));
 bot.start((ctx) => helpText(ctx));
 
