@@ -69,6 +69,49 @@ bot.command("/join", (ctx) => {
   });
 });
 
+bot.command("/add", (ctx) => {
+  if (!doesUserExist(ctx)) {
+    ctx.reply("You have not joined our system.\n\n/join to join us.");
+    return;
+  }
+  let food = {
+    user: ctx.message.from.first_name + ", " + ctx.message.from.last_name,
+    date: moment(Date.now()).format("DD/MM/YYYY"),
+    foodName: "",
+    calories: 0,
+  };
+
+  bot.hears("Yes", (ctx) => {
+    if (food.calories === 0 || food.foodName === "") {
+      return;
+    } else {
+      console.log(food);
+      console.log(foodDB);
+      foodDB.push({ ...food });
+      console.log(foodDB);
+      ctx.reply("Added food to list!");
+      return;
+    }
+  });
+
+  ctx.reply("What is the name of the food you eaten?");
+
+  bot.on("text", (ctx) => {
+    const calories = parseInt(ctx.message.text);
+
+    if (calories >= 0) {
+      food.calories = parseInt(ctx.message.text);
+      ctx.replyWithMarkdown(
+        `Is this the food you have eaten?\n\nFood: ${food.foodName}\nCalories: ${food.calories}\n\nReply \`Yes\` to confirm!`
+      );
+    } else {
+      console.log("Asking calories");
+      food.foodName = ctx.message.text;
+      ctx.reply("What is the calories of the food you eaten in kcal?");
+    }
+  });
+});
+
 bot.help((ctx) => helpText(ctx));
 bot.start((ctx) => helpText(ctx));
 
